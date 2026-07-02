@@ -1,0 +1,12 @@
+*.pdf
+*.md
+!README.md
+*.atl
+*.py
+!rtm32test/*.py
+!tests/*.py
+!run_all.py
+__pycache__/
+tests/
+rtm32test/
+docs/
