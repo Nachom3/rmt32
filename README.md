@@ -70,7 +70,7 @@
 # Caso 1: ADD $3, $1, $2
 ## Descripción:
 Testeo de la instrucción ADD entre dos registros para verificar suma aritmética.
-## Instrucctions:
+## Instrucciones:
 ADD (R-type, opcode=00000, func=011100) — R[rd] = R[rs] + R[rt]
 ## Precondiciones:
 - set r1 5
@@ -93,7 +93,7 @@ Anduvo. R[3] = 12 = 5+7.
 # Caso 2: SUB $3, $1, $2
 ## Descripción:
 Testeo de la instrucción SUB entre dos registros para verificar resta aritmética.
-## Instrucctions:
+## Instrucciones:
 SUB (R-type, opcode=00000, func=011101) — R[rd] = R[rs] - R[rt]
 ## Precondiciones:
 - set r1 10
@@ -116,7 +116,7 @@ Anduvo. R[3] = 7 = 10-3.
 # Caso 3: ADDI $2, $1, 10
 ## Descripción:
 Testeo de la instrucción ADDI con inmediato positivo para verificar suma con constante.
-## Instrucctions:
+## Instrucciones:
 ADDI (I-type, opcode=00001) — R[rt] = R[rs] + SE(imm)
 ## Precondiciones:
 - set r1 5
@@ -137,7 +137,7 @@ Anduvo. R[2] = 15 = 5+10. ADDI funciona correctamente en la nueva versión del e
 # Caso 4: AND $3, $1, $2
 ## Descripción:
 Testeo de la instrucción AND bit a bit entre dos registros.
-## Instrucctions:
+## Instrucciones:
 AND (R-type, opcode=00000, func=001000) — R[rd] = R[rs] & R[rt]
 ## Precondiciones:
 - set r1 0xFF00FF00
@@ -160,7 +160,7 @@ Anduvo. R[3] = 0xFF00FF00 & 0x0F0F0F0F = 0x0F000F00.
 # Caso 5: OR $3, $1, $2
 ## Descripción:
 Testeo de la instrucción OR bit a bit entre dos registros.
-## Instrucctions:
+## Instrucciones:
 OR (R-type, opcode=00000, func=001001) — R[rd] = R[rs] | R[rt]
 ## Precondiciones:
 - set r1 0xFF000000
@@ -183,7 +183,7 @@ Anduvo. R[3] = 0xFF000000 | 0x000000FF = 0xFF0000FF.
 # Caso 6: XOR $3, $1, $2
 ## Descripción:
 Testeo de la instrucción XOR bit a bit entre dos registros.
-## Instrucctions:
+## Instrucciones:
 XOR (R-type, opcode=00000, func=001010) — R[rd] = R[rs] ^ R[rt]
 ## Precondiciones:
 - set r1 0xAAAAAAAA
@@ -206,7 +206,7 @@ Anduvo. R[3] = 0xAAAAAAAA ^ 0x55555555 = 0xFFFFFFFF.
 # Caso 7: SLL $3, $1, 4
 ## Descripción:
 Testeo de la instrucción SLL (shift left lógico) con constante aux=4.
-## Instrucctions:
+## Instrucciones:
 SLL (R-type, opcode=00000, func=000000) — R[rd] = R[rt] << aux
 ## Precondiciones:
 - set r1 0x00000001
@@ -227,7 +227,7 @@ Anduvo. 1 << 4 = 16 = 0x10.
 # Caso 8: SRL $3, $1, 4
 ## Descripción:
 Testeo de la instrucción SRL (shift right lógico) con constante aux=4.
-## Instrucctions:
+## Instrucciones:
 SRL (R-type, opcode=00000, func=000001) — R[rd] = R[rt] >> aux (lógico)
 ## Precondiciones:
 - set r1 0x00000100
@@ -248,7 +248,7 @@ Anduvo. 0x100 >> 4 = 0x10 (rellena con 0s).
 # Caso 9: SRA $3, $1, 4
 ## Descripción:
 Testeo de la instrucción SRA (shift right aritmético) para verificar que usa R[rs] como fuente, tal como indica el manual.
-## Instrucctions:
+## Instrucciones:
 SRA (R-type, opcode=00000, func=000010) — R[rd] = R[rs] >> aux (aritmético)
 ## Precondiciones:
 - set r1 0x80000000 (valor negativo, fuente según manual)
@@ -258,7 +258,7 @@ SRA (R-type, opcode=00000, func=000010) — R[rd] = R[rs] >> aux (aritmético)
 set pc 0x0
 set r1 0x80000000
 set r2 0x12345678
-set [0x0] 0x00423202
+set [0x0] 0x00443202
 step
 ```
 ## Postcondiciones:
@@ -271,7 +271,7 @@ Anduvo. El resultado 0xF8000000 proviene de desplazar R[1] = 0x80000000 4 posici
 # Caso 10: SLT $3, $1, $2 (5 < 10)
 ## Descripción:
 Testeo de SLT (set on less than) con comparación con signo donde la condición es verdadera.
-## Instrucctions:
+## Instrucciones:
 SLT (R-type, opcode=00000, func=001100) — R[rd] = (R[rs] < R[rt]) ? 1 : 0
 ## Precondiciones:
 - set r1 5
@@ -294,7 +294,7 @@ Anduvo. 5 < 10 es verdadero, R[3] = 1.
 # Caso 11: SLTU $3, $1, $2 (0xFFFFFFFF vs 1)
 ## Descripción:
 Testeo de SLTU (set on less than unsigned) para demostrar diferencia con SLT. 0xFFFFFFFF es 4294967295 sin signo (mayor que 1).
-## Instrucctions:
+## Instrucciones:
 SLTU (R-type, opcode=00000, func=001101) — R[rd] = (R[rs] < R[rt]) ? 1 : 0 (sin signo)
 ## Precondiciones:
 - set r1 0xFFFFFFFF
@@ -317,7 +317,7 @@ Anduvo. 0xFFFFFFFF (4294967295) > 1 sin signo, R[3] = 0. Diferencia clave con SL
 # Caso 12: NOR $3, $1, $2
 ## Descripción:
 Testeo de NOR bit a bit. NOR es el complemento del OR.
-## Instrucctions:
+## Instrucciones:
 NOR (R-type, opcode=00000, func=001011) — R[rd] = ~(R[rs] | R[rt])
 ## Precondiciones:
 - set r1 0x00000000
@@ -340,7 +340,7 @@ Anduvo. ~(0 | 0) = ~0 = 0xFFFFFFFF.
 # Caso 13: LW $2, 0($1)
 ## Descripción:
 Testeo de LW (load word) para cargar una palabra completa desde memoria a registro.
-## Instrucctions:
+## Instrucciones:
 LW (I-type, opcode=01000) — R[rt] = M[EA(rs, imm)]
 ## Precondiciones:
 - set r1 0x100 (dirección base)
@@ -363,7 +363,7 @@ Anduvo. LW carga 4 bytes desde M[0x100] = 0xDEADBEEF a R[2].
 # Caso 14: SW $2, 0($1)
 ## Descripción:
 Testeo de SW (store word) para guardar una palabra completa de registro a memoria.
-## Instrucctions:
+## Instrucciones:
 SW (I-type, opcode=01001) — M[EA(rs, imm)] = R[rt]
 ## Precondiciones:
 - set r1 0x100 (dirección base)
@@ -387,7 +387,7 @@ Anduvo. SW guarda 4 bytes de R[2] en M[0x100].
 # Caso 15: SH $2, 0($1)
 ## Descripción:
 Testeo de SH (store half) para guardar solo 2 bytes bajos del registro a memoria.
-## Instrucctions:
+## Instrucciones:
 SH (I-type, opcode=01010) — M[EA(rs, imm)][15:0] = R[rt][15:0]
 ## Precondiciones:
 - set r1 0x100 (dirección base)
@@ -413,7 +413,7 @@ Anduvo. SH guarda solo los 2 bytes bajos (0x1234), los 2 bytes altos quedan inta
 # Caso 16: SB $2, 0($1)
 ## Descripción:
 Testeo de SB (store byte) para guardar solo 1 byte del registro a memoria.
-## Instrucctions:
+## Instrucciones:
 SB (I-type, opcode=01011) — M[EA(rs, imm)][7:0] = R[rt][7:0]
 ## Precondiciones:
 - set r1 0x100 (dirección base)
@@ -439,7 +439,7 @@ Anduvo. SB guarda solo el byte bajo (0x34), los 3 bytes superiores quedan intact
 # Caso 17: LH $2, 0($1)
 ## Descripción:
 Testeo de LH (load half) con sign-extend. Carga 2 bytes y extiende con signo.
-## Instrucctions:
+## Instrucciones:
 LH (I-type, opcode=01100) — R[rt] = sign-extend(M[EA][15:0])
 ## Precondiciones:
 - set r1 0x100 (dirección base)
@@ -462,7 +462,7 @@ Anduvo. LH carga 0x8000 y extiende con signo: como bit 15 = 1, los 16 bits super
 # Caso 18: LHU $2, 0($1)
 ## Descripción:
 Testeo de LHU (load half unsigned) con zero-extend. Carga 2 bytes y extiende con 0s.
-## Instrucctions:
+## Instrucciones:
 LHU (I-type, opcode=01101) — R[rt] = zero-extend(M[EA][15:0])
 ## Precondiciones:
 - set r1 0x100 (dirección base)
@@ -485,7 +485,7 @@ Anduvo. LHU carga 0x8000 y extiende con ceros: como es zero-extend, los 16 bits 
 # Caso 19: BEQ $1, $2, +2 (salto tomado)
 ## Descripción:
 Testeo de BEQ (branch if equal) cuando la condición es verdadera (R1 == R2).
-## Instrucctions:
+## Instrucciones:
 BEQ (I-type, opcode=10000) — if (R[rs] == R[rt]) PC = PC+4 + Branch(imm)
 ## Precondiciones:
 - set r1 5
@@ -508,7 +508,7 @@ Anduvo. BEQ salta cuando R1 == R2. PC = 0xC = 12.
 # Caso 20: BNE $1, $2, +2 (salto tomado)
 ## Descripción:
 Testeo de BNE (branch if not equal) cuando la condición es verdadera (R1 != R2).
-## Instrucctions:
+## Instrucciones:
 BNE (I-type, opcode=10001) — if (R[rs] != R[rt]) PC = PC+4 + Branch(imm)
 ## Precondiciones:
 - set r1 5
@@ -531,7 +531,7 @@ Anduvo. BNE salta cuando R1 != R2. PC = 0xC = 12.
 # Caso 21: BLT $1, $2, +2 (salto tomado)
 ## Descripción:
 Testeo de BLT (branch if less than) con comparación con signo cuando la condición es verdadera.
-## Instrucctions:
+## Instrucciones:
 BLT (I-type, opcode=10010) — if (R[rs] < R[rt]) PC = PC+4 + Branch(imm)
 ## Precondiciones:
 - set r1 3
@@ -554,7 +554,7 @@ Anduvo. BLT salta cuando R1 < R2 (con signo). 3 < 10, PC = 0xC = 12.
 # Caso 22: J 0x40 (salto a 0x100)
 ## Descripción:
 Testeo de J (jump incondicional) para saltar a una dirección directa.
-## Instrucctions:
+## Instrucciones:
 J (J-type, opcode=00010) — PC = E(address)
 ## Precondiciones:
 - Ninguna (el PC empieza en 0x0)
@@ -574,7 +574,7 @@ Anduvo. J salta a E(0x40) = {PC+4[31:29], 0x40, 2'b0} = 0x100.
 # Caso 23: JAL 0x80 (salto a 0x200, guarda retorno)
 ## Descripción:
 Testeo de JAL (jump and link) para saltar y guardar la dirección de retorno en R[31].
-## Instrucctions:
+## Instrucciones:
 JAL (J-type, opcode=00011) — R[31] = PC+4; PC = E(address)
 ## Precondiciones:
 - Ninguna
@@ -595,7 +595,7 @@ Anduvo. JAL guarda PC+4 = 4 en R[31] y salta a E(0x80) = 0x200.
 # Caso 24: JR $5 (salto a dirección en registro)
 ## Descripción:
 Testeo de JR (jump register) para saltar a la dirección contenida en un registro.
-## Instrucctions:
+## Instrucciones:
 JR (R-type, opcode=00000, func=001110) — PC = R[rs]
 ## Precondiciones:
 - set r5 0x300 (dirección destino)
@@ -616,7 +616,7 @@ Anduvo. JR salta al valor completo del registro: PC = R[5] = 0x300.
 # Caso 25: LUI $1, 0x1234
 ## Descripción:
 Testeo de LUI (load upper immediate) para cargar constante en 16 bits altos del registro.
-## Instrucctions:
+## Instrucciones:
 LUI (L-type, opcode=00111) — R[rt] = ZC(imm) = {imm, 16'b0}
 ## Precondiciones:
 - Ninguna
@@ -636,7 +636,7 @@ Anduvo. LUI carga la constante en los 16 bits altos correctamente: R[1] = {0x123
 # Caso 26: ANDI $2, $1, 0x00FF (h=0)
 ## Descripción:
 Testeo de ANDI con parte baja (h=0) para verificar AND con constante inmediata.
-## Instrucctions:
+## Instrucciones:
 ANDI (L-type, opcode=00100) — R[rt] = R[rs] & ZE(imm)
 ## Precondiciones:
 - set r1 0xABCD1234
@@ -657,7 +657,7 @@ Anduvo. ANDI ejecuta correctamente: R[2] = 0xABCD1234 & 0xFF = 0x34.
 # Caso 27: ORI $2, $1, 0x00FF (h=0)
 ## Descripción:
 Testeo de ORI con parte baja (h=0) para verificar OR con constante inmediata.
-## Instrucctions:
+## Instrucciones:
 ORI (L-type, opcode=00101) — R[rt] = R[rs] | ZE(imm)
 ## Precondiciones:
 - set r1 0xABCD0000
@@ -678,7 +678,7 @@ Anduvo. ORI ejecuta correctamente: R[2] = 0xABCD0000 | 0xFF = 0xABCD00FF.
 # Caso 28: CFS $1, S[0] (Copy From Special)
 ## Descripción:
 Testeo de CFS para copiar un registro especial (PSW) a un registro general.
-## Instrucctions:
+## Instrucciones:
 CFS (R-type, opcode=00000, func=000110) — R[rs] = S[aux]
 ## Precondiciones:
 - Ninguna
@@ -699,7 +699,7 @@ FALLÓ. CFS causa excepción CAUSE=3. El emulador reconoce la función pero el h
 # Caso 29: CTS $1, S[0] (Copy To Special)
 ## Descripción:
 Testeo de CTS para copiar un registro general a un registro especial (PSW).
-## Instrucctions:
+## Instrucciones:
 CTS (R-type, opcode=00000, func=000111) — S[aux] = R[rs]
 ## Precondiciones:
 - set r1 0x00000010 (valor a escribir en PSW)
@@ -996,18 +996,18 @@ Anduvo. LHUX carga el halfword 0x8000 desde 0x108 y extiende con ceros, R[3] = 0
 
 # Caso 42: LBX $3, R[$1]+R[$2]
 ## Descripción:
-Testeo de LBX (load byte indexed, sign-extend). Direccion = R[1]+R[2] = 0x101, byte bajo = 0x80.
+Testeo de LBX (load byte indexed, sign-extend). Direccion = R[1]+R[2] = 0x100, byte bajo = 0x80.
 ## Instrucciones:
 LBX (R-type, opcode=00000, func=010010) — R[rt] = sign-extend(M[R[rs]+R[rd]][7:0])
 ## Precondiciones:
 - set r1 0x100
-- set r2 0x1
+- set r2 0x0
 - set [0x100] 0x00000080
 ## Code:
 ```
 set pc 0x0
 set r1 0x100
-set r2 0x1
+set r2 0x0
 set [0x100] 0x00000080
 set [0x0] 0x00462012
 step
@@ -1015,24 +1015,24 @@ step
 ## Postcondiciones:
 - R[3] = 0xFFFFFF80
 ## Conclusiones:
-Anduvo. LBX carga el byte 0x80 desde la dirección R[1]+R[2]=0x101 y extiende con signo: bit 7 = 1, por lo tanto R[3] = 0xFFFFFF80. Corregido en la nueva versión del emulador.
+Anduvo. LBX carga el byte 0x80 desde la dirección R[1]+R[2]=0x100 y extiende con signo: bit 7 = 1, por lo tanto R[3] = 0xFFFFFF80. Corregido en la nueva versión del emulador.
 
 ---
 
 # Caso 43: LBUX $3, R[$1]+R[$2]
 ## Descripción:
-Testeo de LBUX (load byte unsigned indexed, zero-extend). Direccion = 0x101, byte bajo = 0x80.
+Testeo de LBUX (load byte unsigned indexed, zero-extend). Direccion = 0x100, byte bajo = 0x80.
 ## Instrucciones:
 LBUX (R-type, opcode=00000, func=010011) — R[rt] = zero-extend(M[R[rs]+R[rd]][7:0])
 ## Precondiciones:
 - set r1 0x100
-- set r2 0x1
+- set r2 0x0
 - set [0x100] 0x00000080
 ## Code:
 ```
 set pc 0x0
 set r1 0x100
-set r2 0x1
+set r2 0x0
 set [0x100] 0x00000080
 set [0x0] 0x00462013
 step
@@ -1040,7 +1040,7 @@ step
 ## Postcondiciones:
 - R[3] = 0x00000080
 ## Conclusiones:
-Anduvo. LBUX carga el byte 0x80 desde la dirección R[1]+R[2]=0x101 y extiende con ceros: R[3] = 0x00000080. Corregido en la nueva versión del emulador.
+Anduvo. LBUX carga el byte 0x80 desde la dirección R[1]+R[2]=0x100 y extiende con ceros: R[3] = 0x00000080. Corregido en la nueva versión del emulador.
 
 ---
 
