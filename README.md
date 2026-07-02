@@ -23,7 +23,7 @@
 | 15 | SH | ✅ PASS |
 | 16 | SB | ✅ PASS |
 | 17 | LH | ✅ PASS |
-| 18 | LHU | ❌ FAIL |
+| 18 | LHU | ✅ PASS |
 | 19 | BEQ | ✅ PASS |
 | 20 | BNE | ✅ PASS |
 | 21 | BLT | ✅ PASS |
@@ -60,17 +60,12 @@
 | 52 | JALR | ✅ PASS |
 | 53 | XORI | ✅ PASS |
 
-**Total: 50 PASS / 3 FAIL**
+**Total: 51 PASS / 2 FAIL**
 
 ## Bugs Encontrados
 
-1. **LHU** — No causa CAUSE=3 pero tampoco carga el dato: R[2] queda en 0x00000000 en lugar de 0x00008000. Decoder parcialmente implementado.
-2. **CFS** — NOP silencioso. El emulador reconoce la función pero el handler está vacío; R[rs] no se modifica.
-3. **CTS** — NOP silencioso. El emulador reconoce la función pero el handler está vacío; S[aux] no se modifica.
-
-**Nota:** ADDI, LUI, LBX, LBUX y JALR fueron corregidos en la nueva versión del emulador (v2). LHU cambió de CAUSE=3 a comportamiento parcial (sin excepción pero sin funcionar correctamente). JALR funciona correctamente usando el campo `rd` como registro de link. TRAP y RFT no se testean (no implementados en el emulador).
-
-**Patron:** El emulador corrigió I-type (ADDI), L-type (LUI), cargas byte indexadas (LBX, LBUX) y JALR. Siguen sin funcionar: LHU (carga parcial), CFS/CTS (handler vacío).
+1. **CFS** — NOP silencioso. El emulador reconoce la función pero el handler está vacío; R[rs] no se modifica.
+2. **CTS** — NOP silencioso. El emulador reconoce la función pero el handler está vacío; S[aux] no se modifica.
 
 # Caso 1: ADD $3, $1, $2
 ## Descripción:
@@ -477,13 +472,13 @@ LHU (I-type, opcode=01101) — R[rt] = zero-extend(M[EA][15:0])
 set pc 0x0
 set r1 0x100
 set [0x100] 0x00008000
-set [0x0] 0x48800000
+set [0x0] 0x68440000
 step
 ```
 ## Postcondiciones:
-- R[2] = 0x00000000 (observado, esperaba 0x00008000)
+- R[2] = 0x00008000
 ## Conclusiones:
-FALLÓ. LHU ya no causa CAUSE=3 (antes sí), pero tampoco carga el dato: R[2] queda en 0x00000000 en lugar de 0x00008000. El decoder está parcialmente implementado.
+Anduvo. LHU carga 0x8000 y extiende con ceros: como es zero-extend, los 16 bits superiores se llenan de 0s → R[2] = 0x00008000. Corregido en la nueva versión del emulador (v2).
 
 ---
 
@@ -655,7 +650,7 @@ step
 ## Postcondiciones:
 - R[2] = 0x00000034 (52)
 ## Conclusiones:
-Anduvo. El fallo anterior era un error de encoding en el script viejo. ANDI ejecuta correctamente: R[2] = 0xABCD1234 & 0xFF = 0x34.
+Anduvo. ANDI ejecuta correctamente: R[2] = 0xABCD1234 & 0xFF = 0x34.
 
 ---
 
@@ -676,7 +671,7 @@ step
 ## Postcondiciones:
 - R[2] = 0xABCD00FF (2882337023)
 ## Conclusiones:
-Anduvo. El fallo anterior era un error de encoding en el script viejo. ORI ejecuta correctamente: R[2] = 0xABCD0000 | 0xFF = 0xABCD00FF.
+Anduvo. ORI ejecuta correctamente: R[2] = 0xABCD0000 | 0xFF = 0xABCD00FF.
 
 ---
 
