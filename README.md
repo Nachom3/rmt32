@@ -350,7 +350,7 @@ LW (I-type, opcode=01000) — R[rt] = M[EA(rs, imm)]
 set pc 0x0
 set r1 0x100
 set [0x100] 0xDEADBEEF
-set [0x0] 0x20800000
+set [0x0] 0x40440000
 step
 ```
 ## Postcondiciones:
@@ -373,7 +373,7 @@ SW (I-type, opcode=01001) — M[EA(rs, imm)] = R[rt]
 set pc 0x0
 set r1 0x100
 set r2 0xDEADBEEF
-set [0x0] 0x28800000
+set [0x0] 0x48440000
 step
 examine 0x100
 ```
@@ -399,7 +399,7 @@ set pc 0x0
 set r1 0x100
 set r2 0xABCD1234
 set [0x100] 0xDEADBEEF
-set [0x0] 0x30800000
+set [0x0] 0x50440000
 step
 examine 0x100
 ```
@@ -425,7 +425,7 @@ set pc 0x0
 set r1 0x100
 set r2 0xABCD1234
 set [0x100] 0xDEADBEEF
-set [0x0] 0x38800000
+set [0x0] 0x58440000
 step
 examine 0x100
 ```
@@ -449,7 +449,7 @@ LH (I-type, opcode=01100) — R[rt] = sign-extend(M[EA][15:0])
 set pc 0x0
 set r1 0x100
 set [0x100] 0x00008000
-set [0x0] 0x40800000
+set [0x0] 0x60440000
 step
 ```
 ## Postcondiciones:
@@ -495,7 +495,7 @@ BEQ (I-type, opcode=10000) — if (R[rs] == R[rt]) PC = PC+4 + Branch(imm)
 set pc 0x0
 set r1 5
 set r2 5
-set [0x0] 0x80A00002
+set [0x0] 0x80440002
 step
 ```
 ## Postcondiciones:
@@ -518,7 +518,7 @@ BNE (I-type, opcode=10001) — if (R[rs] != R[rt]) PC = PC+4 + Branch(imm)
 set pc 0x0
 set r1 5
 set r2 7
-set [0x0] 0x88A00002
+set [0x0] 0x88440002
 step
 ```
 ## Postcondiciones:
@@ -541,7 +541,7 @@ BLT (I-type, opcode=10010) — if (R[rs] < R[rt]) PC = PC+4 + Branch(imm)
 set pc 0x0
 set r1 3
 set r2 10
-set [0x0] 0x90A00002
+set [0x0] 0x90440002
 step
 ```
 ## Postcondiciones:
@@ -561,7 +561,7 @@ J (J-type, opcode=00010) — PC = E(address)
 ## Code:
 ```
 set pc 0x0
-set [0x0] 0x04000040
+set [0x0] 0x10000040
 step
 ```
 ## Postcondiciones:
@@ -623,7 +623,7 @@ LUI (L-type, opcode=00111) — R[rt] = ZC(imm) = {imm, 16'b0}
 ## Code:
 ```
 set pc 0x0
-set [0x0] 0xE0210000
+set [0x0] 0x38021234
 step
 ```
 ## Postcondiciones:
@@ -644,7 +644,7 @@ ANDI (L-type, opcode=00100) — R[rt] = R[rs] & ZE(imm)
 ```
 set pc 0x0
 set r1 0xABCD1234
-set [0x0] 0x804100FF
+set [0x0] 0x204400FF
 step
 ```
 ## Postcondiciones:
@@ -665,7 +665,7 @@ ORI (L-type, opcode=00101) — R[rt] = R[rs] | ZE(imm)
 ```
 set pc 0x0
 set r1 0xABCD0000
-set [0x0] 0xA04100FF
+set [0x0] 0x284400FF
 step
 ```
 ## Postcondiciones:
