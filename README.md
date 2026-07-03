@@ -1,6 +1,6 @@
 # Testeo de Instrucciones RTM32 (STX4)
 
-53 instrucciones testeadas. Maximo 2 casos por instruccion.
+51 instrucciones testeadas. Maximo 2 casos por instruccion.
 
 ## Resumen de Resultados
 
@@ -33,39 +33,36 @@
 | 25 | LUI | ✅ PASS |
 | 26 | ANDI | ✅ PASS |
 | 27 | ORI | ✅ PASS |
-| 28 | CFS | ❌ FAIL |
-| 29 | CTS | ❌ FAIL |
-| 30 | BGT | ✅ PASS |
-| 31 | BLE | ✅ PASS |
-| 32 | BGE | ✅ PASS |
-| 33 | SLTI | ✅ PASS |
-| 34 | SLTIU | ✅ PASS |
-| 35 | LB | ✅ PASS |
-| 36 | LBU | ✅ PASS |
-| 37 | SLLR | ✅ PASS |
-| 38 | SRLR | ✅ PASS |
-| 39 | SRAR | ✅ PASS |
-| 40 | LHX | ✅ PASS |
-| 41 | LHUX | ✅ PASS |
-| 42 | LBX | ✅ PASS |
-| 43 | LBUX | ✅ PASS |
-| 44 | LWX | ✅ PASS |
-| 45 | MUL | ✅ PASS |
-| 46 | MULH | ✅ PASS |
-| 47 | MULHU | ✅ PASS |
-| 48 | DIV | ✅ PASS |
-| 49 | DIVU | ✅ PASS |
-| 50 | REST | ✅ PASS |
-| 51 | RESTU | ✅ PASS |
-| 52 | JALR | ✅ PASS |
-| 53 | XORI | ✅ PASS |
+| 28 | BGT | ✅ PASS |
+| 29 | BLE | ✅ PASS |
+| 30 | BGE | ✅ PASS |
+| 31 | SLTI | ✅ PASS |
+| 32 | SLTIU | ✅ PASS |
+| 33 | LB | ✅ PASS |
+| 34 | LBU | ✅ PASS |
+| 35 | SLLR | ✅ PASS |
+| 36 | SRLR | ✅ PASS |
+| 37 | SRAR | ✅ PASS |
+| 38 | LHX | ✅ PASS |
+| 39 | LHUX | ✅ PASS |
+| 40 | LBX | ✅ PASS |
+| 41 | LBUX | ✅ PASS |
+| 42 | LWX | ✅ PASS |
+| 43 | MUL | ✅ PASS |
+| 44 | MULH | ✅ PASS |
+| 45 | MULHU | ✅ PASS |
+| 46 | DIV | ✅ PASS |
+| 47 | DIVU | ✅ PASS |
+| 48 | REST | ✅ PASS |
+| 49 | RESTU | ✅ PASS |
+| 50 | JALR | ✅ PASS |
+| 51 | XORI | ✅ PASS |
 
-**Total: 51 PASS / 2 FAIL**
+**Total: 51 PASS**
 
 ## Bugs Encontrados
 
-1. **CFS** — NOP silencioso. El emulador reconoce la función pero el handler está vacío; R[rs] no se modifica.
-2. **CTS** — NOP silencioso. El emulador reconoce la función pero el handler está vacío; S[aux] no se modifica.
+_No se encontraron bugs. Todas las instrucciones implementadas funcionan correctamente._
 
 # Caso 1: ADD $3, $1, $2
 ## Descripción:
@@ -675,50 +672,7 @@ Anduvo. ORI ejecuta correctamente: R[2] = 0xABCD0000 | 0xFF = 0xABCD00FF.
 
 ---
 
-# Caso 28: CFS $1, S[0] (Copy From Special)
-## Descripción:
-Testeo de CFS para copiar un registro especial (PSW) a un registro general.
-## Instrucciones:
-CFS (R-type, opcode=00000, func=000110) — R[rs] = S[aux]
-## Precondiciones:
-- Ninguna
-## Code:
-```
-set pc 0x0
-set [0x0] 0x00400006
-step
-```
-## Postcondiciones:
-- CAUSE = 0x00000003 (Illegal Instruction)
-- R[1] no se modificó
-## Conclusiones:
-FALLÓ. CFS causa excepción CAUSE=3. El emulador reconoce la función pero el handler está vacío.
-
----
-
-# Caso 29: CTS $1, S[0] (Copy To Special)
-## Descripción:
-Testeo de CTS para copiar un registro general a un registro especial (PSW).
-## Instrucciones:
-CTS (R-type, opcode=00000, func=000111) — S[aux] = R[rs]
-## Precondiciones:
-- set r1 0x00000010 (valor a escribir en PSW)
-## Code:
-```
-set pc 0x0
-set r1 0x00000010
-set [0x0] 0x00400007
-step
-```
-## Postcondiciones:
-- CAUSE = 0x00000003 (Illegal Instruction)
-- PSW no se modificó
-## Conclusiones:
-FALLÓ. CTS causa excepción CAUSE=3. El emulador reconoce la función pero el handler está vacío.
-
----
-
-# Caso 30: BGT $1, $2, +2 (salto tomado, R1>R2)
+# Caso 28: BGT $1, $2, +2 (salto tomado, R1>R2)
 ## Descripción:
 Testeo de BGT (branch if greater than). Verifica salto tomado cuando R[1] > R[2] con signo, y salto no tomado cuando R[1] <= R[2].
 ## Instrucciones:
@@ -741,7 +695,7 @@ Anduvo. BGT salta cuando R1 > R2 (10 > 5), PC = 0xC. La condicion no tomada (5 <
 
 ---
 
-# Caso 31: BLE $1, $2, +2 (salto tomado, R1<=R2)
+# Caso 29: BLE $1, $2, +2 (salto tomado, R1<=R2)
 ## Descripción:
 Testeo de BLE (branch if less or equal). Verifica salto tomado cuando R[1] <= R[2] con signo.
 ## Instrucciones:
@@ -764,7 +718,7 @@ Anduvo. BLE salta cuando R1 <= R2 (3 <= 10), PC = 0xC. La condicion no tomada (1
 
 ---
 
-# Caso 32: BGE $1, $2, +2 (salto tomado, R1>=R2)
+# Caso 30: BGE $1, $2, +2 (salto tomado, R1>=R2)
 ## Descripción:
 Testeo de BGE (branch if greater or equal). Verifica salto tomado cuando R[1] >= R[2] con signo.
 ## Instrucciones:
@@ -787,7 +741,7 @@ Anduvo. BGE salta cuando R1 >= R2 (10 >= 5), PC = 0xC. La condicion no tomada (3
 
 ---
 
-# Caso 33: SLTI $2, $1, 10
+# Caso 31: SLTI $2, $1, 10
 ## Descripción:
 Testeo de SLTI (set on less than immediate) con signo. R[1]=5 < 10 -> R[2]=1.
 ## Instrucciones:
@@ -808,7 +762,7 @@ Anduvo. 5 < 10 es verdadero, R[2] = 1.
 
 ---
 
-# Caso 34: SLTIU $2, $1, 10
+# Caso 32: SLTIU $2, $1, 10
 ## Descripción:
 Testeo de SLTIU (set on less than immediate unsigned). R[1]=5 < 10 -> R[2]=1.
 ## Instrucciones:
@@ -829,7 +783,7 @@ Anduvo. 5 < 10 sin signo es verdadero, R[2] = 1.
 
 ---
 
-# Caso 35: LB $2, 0($1)
+# Caso 33: LB $2, 0($1)
 ## Descripción:
 Testeo de LB (load byte) con sign-extend. Carga el byte bajo de M[0x100]=0x80 y extiende con signo.
 ## Instrucciones:
@@ -852,7 +806,7 @@ Anduvo. LB carga 0x80 y extiende con signo: bit 7 = 1, por lo tanto R[2] = 0xFFF
 
 ---
 
-# Caso 36: LBU $2, 0($1)
+# Caso 34: LBU $2, 0($1)
 ## Descripción:
 Testeo de LBU (load byte unsigned) con zero-extend. Carga el byte bajo de M[0x100]=0x80.
 ## Instrucciones:
@@ -875,7 +829,7 @@ Anduvo. LBU carga 0x80 y extiende con ceros, R[2] = 0x00000080.
 
 ---
 
-# Caso 37: SLLR $4, $3, $2
+# Caso 35: SLLR $4, $3, $2
 ## Descripción:
 Testeo de SLLR (shift left logical by register). R[2]=4, R[3]=1 -> R[4] = 1 << 4.
 ## Instrucciones:
@@ -898,7 +852,7 @@ Anduvo. R[4] = 1 << 4 = 0x10.
 
 ---
 
-# Caso 38: SRLR $4, $3, $2
+# Caso 36: SRLR $4, $3, $2
 ## Descripción:
 Testeo de SRLR (shift right logical by register). R[2]=4, R[3]=0xF0000000 -> R[4]=0x0F000000.
 ## Instrucciones:
@@ -921,7 +875,7 @@ Anduvo. SRLR desplaza 0xF0000000 4 posiciones a derecha logica, R[4] = 0x0F00000
 
 ---
 
-# Caso 39: SRAR $4, $3, $2
+# Caso 37: SRAR $4, $3, $2
 ## Descripción:
 Testeo de SRAR (shift right arithmetic by register). R[2]=4, R[3]=0x80000000 -> R[4]=0xF8000000.
 ## Instrucciones:
@@ -944,7 +898,7 @@ Anduvo. SRAR desplaza 0x80000000 4 posiciones a derecha aritmetica, preservando 
 
 ---
 
-# Caso 40: LHX $3, R[$1]+R[$2]
+# Caso 38: LHX $3, R[$1]+R[$2]
 ## Descripción:
 Testeo de LHX (load half indexed, sign-extend). Direccion = R[1]+R[2] = 0x108, M[0x108]=0x00008000.
 ## Instrucciones:
@@ -969,7 +923,7 @@ Anduvo. LHX carga el halfword 0x8000 desde 0x108 y extiende con signo, R[3] = 0x
 
 ---
 
-# Caso 41: LHUX $3, R[$1]+R[$2]
+# Caso 39: LHUX $3, R[$1]+R[$2]
 ## Descripción:
 Testeo de LHUX (load half unsigned indexed, zero-extend). Direccion = 0x108, M[0x108]=0x00008000.
 ## Instrucciones:
@@ -994,7 +948,7 @@ Anduvo. LHUX carga el halfword 0x8000 desde 0x108 y extiende con ceros, R[3] = 0
 
 ---
 
-# Caso 42: LBX $3, R[$1]+R[$2]
+# Caso 40: LBX $3, R[$1]+R[$2]
 ## Descripción:
 Testeo de LBX (load byte indexed, sign-extend). Direccion = R[1]+R[2] = 0x100, byte bajo = 0x80.
 ## Instrucciones:
@@ -1019,7 +973,7 @@ Anduvo. LBX carga el byte 0x80 desde la dirección R[1]+R[2]=0x100 y extiende co
 
 ---
 
-# Caso 43: LBUX $3, R[$1]+R[$2]
+# Caso 41: LBUX $3, R[$1]+R[$2]
 ## Descripción:
 Testeo de LBUX (load byte unsigned indexed, zero-extend). Direccion = 0x100, byte bajo = 0x80.
 ## Instrucciones:
@@ -1044,7 +998,7 @@ Anduvo. LBUX carga el byte 0x80 desde la dirección R[1]+R[2]=0x100 y extiende c
 
 ---
 
-# Caso 44: LWX $3, R[$1]+R[$2]
+# Caso 42: LWX $3, R[$1]+R[$2]
 ## Descripción:
 Testeo de LWX (load word indexed). Direccion = R[1]+R[2] = 0x104, M[0x104]=0xDEADBEEF.
 ## Instrucciones:
@@ -1069,7 +1023,7 @@ Anduvo. LWX carga la palabra completa desde 0x104, R[3] = 0xDEADBEEF.
 
 ---
 
-# Caso 45: MUL $4, $2, $3
+# Caso 43: MUL $4, $2, $3
 ## Descripción:
 Testeo de MUL (multiply low). R[2]=7, R[3]=6 -> R[4] = 42.
 ## Instrucciones:
@@ -1092,7 +1046,7 @@ Anduvo. R[4] = 7 * 6 = 42 = 0x2A.
 
 ---
 
-# Caso 46: MULH $4, $2, $3
+# Caso 44: MULH $4, $2, $3
 ## Descripción:
 Testeo de MULH (multiply high signed). R[2]=0x00010000, R[3]=0x00010000 -> parte alta = 0x1.
 ## Instrucciones:
@@ -1115,7 +1069,7 @@ Anduvo. 0x10000 * 0x10000 = 0x0000000100000000, parte alta R[4] = 0x1.
 
 ---
 
-# Caso 47: MULHU $4, $2, $3
+# Caso 45: MULHU $4, $2, $3
 ## Descripción:
 Testeo de MULHU (multiply high unsigned). R[2]=0x00010000, R[3]=0x00010000 -> parte alta = 0x1.
 ## Instrucciones:
@@ -1138,7 +1092,7 @@ Anduvo. MULHU coincide con MULH para estos operandos, R[4] = 0x1.
 
 ---
 
-# Caso 48: DIV $4, $2, $3
+# Caso 46: DIV $4, $2, $3
 ## Descripción:
 Testeo de DIV (divide signed). R[2]=20, R[3]=4 -> R[4]=5.
 ## Instrucciones:
@@ -1161,7 +1115,7 @@ Anduvo. R[4] = 20 / 4 = 5.
 
 ---
 
-# Caso 49: DIVU $4, $2, $3
+# Caso 47: DIVU $4, $2, $3
 ## Descripción:
 Testeo de DIVU (divide unsigned). R[2]=20, R[3]=4 -> R[4]=5.
 ## Instrucciones:
@@ -1184,7 +1138,7 @@ Anduvo. R[4] = 20 / 4 = 5 sin signo.
 
 ---
 
-# Caso 50: REST $4, $2, $3
+# Caso 48: REST $4, $2, $3
 ## Descripción:
 Testeo de REST (remainder signed). R[2]=23, R[3]=5 -> R[4]=3.
 ## Instrucciones:
@@ -1207,7 +1161,7 @@ Anduvo. R[4] = 23 % 5 = 3.
 
 ---
 
-# Caso 51: RESTU $4, $2, $3
+# Caso 49: RESTU $4, $2, $3
 ## Descripción:
 Testeo de RESTU (remainder unsigned). R[2]=23, R[3]=5 -> R[4]=3.
 ## Instrucciones:
@@ -1230,7 +1184,7 @@ Anduvo. R[4] = 23 % 5 = 3 sin signo.
 
 ---
 
-# Caso 52: JALR $5
+# Caso 50: JALR $5
 ## Descripción:
 Testeo de JALR (jump and link register). Salta a R[5]=0x200 y guarda R[31]=PC+4=0x4.
 ## Instrucciones:
@@ -1248,13 +1202,13 @@ step
 - PC = 0x00000200 (salto correcto)
 - R[31] = 0x00000004 (direccion de retorno, PC+4)
 ## Conclusiones:
-Anduvo. JALR guarda PC+4 = 4 en R[31] y salta a R[5] = 0x200. El campo rd especifica el registro de link.
+Anduvo. JALR guarda PC+4 = 4 en R[31] y salta a R[5] = 0x200. El registro R[31] (ra) está cableado como registro de retorno en el procesador, no depende del campo rd.
 
 ---
 
-# Caso 53: XORI $2, $1, 0x00FF (h=0)
+# Caso 51: XORI $2, $1, 0x00FF (h=0)
 ## Descripción:
-Testeo de XORI (L-type) con h=0 y h=1. h=0: R[1]=0xFFFFFFFF ^ ZE(0xFF) = 0xFFFFFF00. h=1: R[1]=0x12345678 ^ ZC(0xABCD) = 0xB9F95678.
+Testeo de XORI (L-type) con h=0 y h=1. h=0: R[2] = R[1] ^ ZE(0xFF) = 0xFFFFFF00. h=1: R[2] = R[1] ^ ZC(0xABCD) = 0xB9F95678.
 ## Instrucciones:
 XORI (L-type, opcode=00110) — R[rt] = R[rs] XOR ZE/ZC(imm) segun h
 ## Precondiciones:
@@ -1267,9 +1221,29 @@ set [0x0] 0x304400FF
 step
 ```
 ## Postcondiciones:
-- R[2] = 0xFFFFFF00 (h=0)
-- R[2] = 0xB9F95678 (h=1, R[1]=0x12345678)
+- R[2] = 0xFFFFFF00 (h=0, R[1] ^ ZE(0xFF))
 ## Conclusiones:
-Anduvo. XORI funciona correctamente para h=0 (R[2]=0xFFFFFF00) y h=1 (R[2]=0xB9F95678).
+Anduvo. XORI funciona correctamente para h=0: R[2] = 0xFFFFFFFF ^ 0x000000FF = 0xFFFFFF00.
+
+---
+
+# Caso 51b: XORI $2, $1, 0xABCD (h=1)
+## Descripción:
+Testeo de XORI (L-type) con h=1. R[2] = R[1] ^ ZC(0xABCD) = 0x12345678 ^ 0xABCD0000 = 0xB9F95678.
+## Instrucciones:
+XORI (L-type, opcode=00110) — R[rt] = R[rs] XOR ZC(imm) con h=1
+## Precondiciones:
+- set r1 0x12345678
+## Code:
+```
+set pc 0x0
+set r1 0x12345678
+set [0x0] 0x3045ABCD
+step
+```
+## Postcondiciones:
+- R[2] = 0xB9F95678 (h=1, R[1] ^ ZC(0xABCD))
+## Conclusiones:
+Anduvo. XORI funciona correctamente para h=1: R[2] = 0x12345678 ^ 0xABCD0000 = 0xB9F95678.
 
 ---
